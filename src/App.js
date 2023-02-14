@@ -41,6 +41,23 @@ export default class App extends Component {
     this.setState({todoData : newTodoData}); //state는 함수형 컴포넌트를 사용 할 수 없다.
   }
   
+  handleChange = (e) => {
+    console.log('e',e.target.value);
+    this.setState({ value : e.target.value });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    let newTodo = {
+      id : Date.now(), //현재의 Date를 나열 해 준다.
+      title: this.state.value,
+      completed: false,
+    };
+
+    this.setState({todoData: [...this.state.todoData, newTodo]}); //연개 연산자
+  }
+
   render(){
     return(
       <div className='container'>
@@ -48,6 +65,10 @@ export default class App extends Component {
           <div className='title'>
             <h1>할 일 목록</h1>
           </div>
+          <form style={{display: 'flex'}} onSubmit={this.handleSubmit}>
+            <input type="text" name="value" style={{ flex:'10', padding: '8px'}} placeholder="해야 할 일을 입력하세요." value={this.state.value} onChange={this.handleChange}/>
+            <input type="submit" value="입력" className='btn' style={{flex:'1'}}></input>
+          </form>
 
         {this.state.todoData.map(data => (
           <div style={this.getStyle()} key={data.id}>
