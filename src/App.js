@@ -11,29 +11,22 @@ export default class App extends Component {
     float: "right",
   };
 
-  getStyle = () => {
+  getStyle = (completed) => {
     return {
       padding: "20px",
       borderBottom: "1px #ccc dotted",
-      textDecoration: "none",
+      textDecoration: completed ? "line-through" : "none",
     }
   }
 
+  //---------------- state를 통해 todoList의 값을 저장하는 공간 ----------------------------------------------------------
+  
   state = {
-    todoData : [
-      {
-        id: '1',
-        title: '공부하기',
-        completed: true
-      },
-      {
-        id: '2',
-        title: '청소하기',
-        completed: false
-      }
-    ],
+    todoData : [],
     value: "", //값 보관 공간
   }
+
+  //--------------- 버튼으로 클릭한 것을 제외한 결과값을 출력하게 해줌  ---------------------------------------------------
 
   handleClick = (id) => {
     let newTodoData = this.state.todoData.filter((data) => (data.id !== id));
@@ -41,10 +34,14 @@ export default class App extends Component {
     this.setState({todoData : newTodoData}); //state는 함수형 컴포넌트를 사용 할 수 없다.
   }
   
+  //-------------- 해야할 일을 입력할때 event 속성을 이용하여 값을 전달시켜주는 역할을 한다. -------------------------------
+
   handleChange = (e) => {
     console.log('e',e.target.value);
     this.setState({ value : e.target.value });
   }
+
+  //-------------- 전달 받은 값을 화면에 출력하고 입력칸을 비우는 역할을 해준다. -------------------------------------------
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -55,8 +52,23 @@ export default class App extends Component {
       completed: false,
     };
 
-    this.setState({todoData: [...this.state.todoData, newTodo]}); //연개 연산자
+    this.setState({todoData: [...this.state.todoData, newTodo], value:""}); //연개 연산자
+    console.log('title', newTodo.title);
   }
+
+  //--------------------------------------------------------------------------------------------------------------------
+
+  handleCompleteChange = (id) => {
+    let newTodoData = this.state.todoData.map((data) => {
+      if(data.id === id){
+        data.completed = !data.completed;
+      }
+      return data;
+    })
+    this.setState({todoData: newTodoData});
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
 
   render(){
     return(
@@ -71,8 +83,8 @@ export default class App extends Component {
           </form>
 
         {this.state.todoData.map(data => (
-          <div style={this.getStyle()} key={data.id}>
-            <input type="checkbox" defaultChecked={false}/>
+          <div style={this.getStyle(data.completed)} key={data.id}>
+            <input type="checkbox" defaultChecked={false} onChange={() => this.handleCompleteChange(data.id)}/>
               {data.title}
             <button style={this.btnStyle} onClick={() => this.handleClick(data.id)}>x</button>
           </div>
