@@ -41,7 +41,7 @@ export default class App extends Component {
     this.setState({ value : e.target.value });
   }
 
-  //-------------- 전달 받은 값을 화면에 출력하고 입력칸을 비우는 역할을 해준다. -------------------------------------------
+  //-------------- 전달 받은 값을 화면에 출력하고 입력칸을 비우는 역할을 해준다 -------------------------------------------
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -52,11 +52,11 @@ export default class App extends Component {
       completed: false,
     };
 
-    this.setState({todoData: [...this.state.todoData, newTodo], value:""}); //연개 연산자
+    this.setState({todoData: [...this.state.todoData, newTodo], value:""}); //전개 연산자
     console.log('title', newTodo.title);
   }
 
-  //--------------------------------------------------------------------------------------------------------------------
+  //------------- completed를 바꿔주기 위해서 현재있는 데이터와 반대로 넣어주는 역할을 해준다. ------------------------------
 
   handleCompleteChange = (id) => {
     let newTodoData = this.state.todoData.map((data) => {
