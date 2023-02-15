@@ -33,7 +33,6 @@ export default function App () {
         <div className='title'>
           <h1>할 일 목록</h1>
         </div>
-
         <Form value = {value} setValue = {setValue} handleSubmit ={handleSubmit}/>
         <List todoData = {todoData} setTodoData = {setTodoData}/>
       </div>
