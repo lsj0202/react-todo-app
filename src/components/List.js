@@ -11,12 +11,14 @@ function List({todoData, setTodoData}) {
       return data;
     })
     setTodoData(newTodoData);
+    localStorage.setItem('todoData', JSON.stringify(newTodoData));
   }
 
 	const handleClick = (id) => {
     let newTodoData = todoData.filter((data) => (data.id !== id));
     console.log('newTodoData',newTodoData);
     setTodoData(newTodoData);
+    localStorage.setItem('todoData', JSON.stringify(newTodoData));
   }
   
 

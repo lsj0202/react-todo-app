@@ -3,8 +3,10 @@ import './App.css';
 import List from './components/List';
 import Form from './components/Form';
 
+const initialTodoData = localStorage.getItem('todoData') ? JSON.parse(localStorage.getItem('todoData')) : [];
+
 export default function App () {
-  const [todoData, setTodoData] = useState([]);
+  const [todoData, setTodoData] = useState(initialTodoData);
   const [value, setValue] = useState("");
 
 
@@ -21,6 +23,7 @@ export default function App () {
       alert('해야할 일을 입력하세요');
     } else{
       setTodoData(prev => [...prev, newTodo]);
+      localStorage.setItem('todoData', JSON.stringify([...todoData, newTodo]));
     }
     
     setValue("");
@@ -29,6 +32,7 @@ export default function App () {
 
   const handleRemoveClick = () => {
     setTodoData([]);
+    localStorage.setItem('todoData', JSON.stringify([]));
   };
 
   return(
